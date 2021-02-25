@@ -97,20 +97,24 @@ classification of the labels. Both deep learning approaches rely on an
 unsupervised neural language model at the first stage, which learns the
 word vectors – essentially a representation of the text in vector form.
 The whole process can be summarized broadly as follows: a corpus of text
-**X̃** is fed to a `word2vec` model. The output **X** and corresponding
+*X̃* is fed to a `word2vec` model. The output **X** and corresponding
 vector of target labels **y** is then fed to a supervised deep learning
-model, which produces the final predictions $\\hat{\\mathbf{y}}$.
+model, which produces the final predictions *ŷ*.
 
 ![](www/process_flow.png)
+
+For model selection through hyperparameter tuning a simple grid search
+framework is built from scratch.[1]
+
+#### Embeddings
 
 With respect to the word embeddings three different approaches are used:
 *random* – words are randomly initialized, *non-static* – embeddings are
 pre-trained through `word2vec` and fine-tuned during training, and
-*GloVe* – pre-trained global word vectors are used. For model selection
-through hyperparameter tuning a simple grid search framework is built
-from scratch.[1]
-
-#### Embeddings
+*GloVe* – pre-trained global word vectors are used. The latter are
+obtained from [GloVe](https://nlp.stanford.edu/projects/glove/). In
+particular, the 50-*d* Wikipedia 2014 + Gigaword 5 vectors are used
+here.
 
 #### CNN
 
