@@ -97,9 +97,9 @@ classification of the labels. Both deep learning approaches rely on an
 unsupervised neural language model at the first stage, which learns the
 word vectors – essentially a representation of the text in vector form.
 The whole process can be summarized broadly as follows: a corpus of text
-*X̃* is fed to a `word2vec` model. The output **X** and corresponding
+**X̄** is fed to a `word2vec` model. The output **X** and corresponding
 vector of target labels **y** is then fed to a supervised deep learning
-model, which produces the final predictions *ŷ*.
+model, which produces the final predictions **ŷ**.
 
 ![](www/process_flow.png)
 
