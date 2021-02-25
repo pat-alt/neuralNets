@@ -161,14 +161,45 @@ use a Long Short Term Memory (LSTM) network, a special kind of RNN.
 
 The best CNN and RNN classifiers have been serialized and saved to disk
 (`cnn.json` and `rnn.json`, respectively). They ended up with roughly
-the same accuracy, both reaching perfect in-sample accuracy after only
-2-3 epochs and an average validation accuracy of &gt;80% over the first
-10 epochs.
+the same overall accuracy, both reaching perfect in-sample accuracy
+after only 2-3 epochs and an average validation accuracy of &gt;80% over
+the first 10 epochs. In terms of hyper parameter tuning and model
+architecture the following observations can be made:
+
+-   **CNN**: the best model in terms of validation accuracy used 2
+    filter sizes, 100 filters and just 1 hidden layer of 150 neurons. In
+    terms of word embeddings, best performance was achieved using GloVe.
+
+-   **RNN**: the best model turns out to be a Gated Recurrent Unit
+    (GRU). GRUs are very similar to LSTMs and generally have been found
+    to yield similar performance when applied to NLP. For small data
+    sets, as we have here, GRUs often outperform LSTMs. The optimal
+    number of hidden neurons identified by the grid search is 100.
+    Contrary to the results for the CNN above, we find that in this case
+    the randomly initialized word vectors outperform the pre-trained
+    GloVe vectors.
+
+Since independently of each other both the CNN and RNN produce perfect
+in-sample predictions of the discrete labels, it is not surprising that
+the correlation between their respective probabilistic predictions is 98
+percent. The figure below illustrates this further. It plots the twenty
+most frequent words occurring in sentences that were labelled as either
+positive (=1) or negative (=0) by the CNN and RNN, respectively[3].
+Evidently there are certain similarities: both models appear to have
+learned that negative reviews tend revolve around timing and positive
+reviews tend to be packed with positive attributes describing either
+staff, food or the atmosphere.
+
+![](README_files/figure-gfm/clouds-1.png)<!-- -->
+
+# Notes
 
 [1] Alternatively, one can perform grid search through existing
 libraries, for example, `sklearn` or `ray`. The latter was tested, but I
 ran into issues. The low-level custom grid search ultimately worked very
 well.
 
-[2] Animation of convoluting filter in action. Source: (towards data
-science)\[<https://towardsdatascience.com/applied-deep-learning-part-4-convolutional-neural-networks-584bc134c1e2>\]
+[2] Animation of convoluting filter in action. Source: [towards data
+science](https://towardsdatascience.com/applied-deep-learning-part-4-convolutional-neural-networks-584bc134c1e2)
+
+[3] Stop words have been removed.
