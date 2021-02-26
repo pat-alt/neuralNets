@@ -24,7 +24,7 @@ The [notebook](notebook.ipynb) trains various deep learning models to a simple, 
 kable(head(fread("data/data.txt")), col.names = c("Review", "Label"))
 ```
 
-Below you may find a high-level overview of the methodology and results. Code and detailed comments are contained in the [notebook](notebook.ipynb) which is divided into the following sections:
+Below you may find a high-level overview of the motivation, methodology and results. All code along with comments is contained in the [notebook](notebook.ipynb) which is divided into the following sections:
 
 1. Load and preprocess data 
 2. A first run
@@ -55,7 +55,25 @@ Recurrent neural networks are based on the idea of persistent thoughts: thinking
 
 ## Results
 
-The best CNN and RNN classifiers have been serialized and saved to disk (`cnn.json` and `rnn.json`, respectively). They ended up with roughly the same overall accuracy, both reaching perfect in-sample accuracy after only 2-3 epochs and an average validation accuracy of >80% over the first 10 epochs. In terms of hyper parameter tuning and model architecture the following observations can be made: 
+The best CNN and RNN classifiers have been serialized and saved to disk (`cnn.json` and `rnn.json`, respectively). To load and use a model and its corresponding weights, you can simply run the below from within the root folder of this repository:
+
+```{r, echo=FALSE}
+library(reticulate)
+```
+
+```{python, echo=TRUE, eval=FALSE}
+# load json and create model
+json_file = open('cnn.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+# load weights into new model
+loaded_model.load_weights("cnn.h5")
+```
+
+Both models ended up with roughly the same overall accuracy, both reaching perfect in-sample accuracy after only 2-3 epochs and an average validation accuracy of >80% over the first 10 epochs. 
+
+In terms of hyper parameter tuning and model architecture the following observations can be made: 
 
 - **CNN**: the best model in terms of validation accuracy used 2 filter sizes, 100 filters and just 1 hidden layer of 150 neurons. In terms of word embeddings, best performance was achieved using GloVe. 
 

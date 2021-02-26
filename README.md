@@ -80,8 +80,8 @@ Now I am getting angry and I want my damn pho.
 </tbody>
 </table>
 
-Below you may find a high-level overview of the methodology and results.
-Code and detailed comments are contained in the
+Below you may find a high-level overview of the motivation, methodology
+and results. All code along with comments is contained in the
 [notebook](notebook.ipynb) which is divided into the following sections:
 
 1.  Load and preprocess data
@@ -160,11 +160,26 @@ use a Long Short Term Memory (LSTM) network, a special kind of RNN.
 ## Results
 
 The best CNN and RNN classifiers have been serialized and saved to disk
-(`cnn.json` and `rnn.json`, respectively). They ended up with roughly
-the same overall accuracy, both reaching perfect in-sample accuracy
-after only 2-3 epochs and an average validation accuracy of &gt;80% over
-the first 10 epochs. In terms of hyper parameter tuning and model
-architecture the following observations can be made:
+(`cnn.json` and `rnn.json`, respectively). To load and use a model and
+its corresponding weights, you can simply run the below from within the
+root folder of this repository:
+
+``` python
+# load json and create model
+json_file = open('cnn.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+# load weights into new model
+loaded_model.load_weights("cnn.h5")
+```
+
+Both models ended up with roughly the same overall accuracy, both
+reaching perfect in-sample accuracy after only 2-3 epochs and an average
+validation accuracy of &gt;80% over the first 10 epochs.
+
+In terms of hyper parameter tuning and model architecture the following
+observations can be made:
 
 -   **CNN**: the best model in terms of validation accuracy used 2
     filter sizes, 100 filters and just 1 hidden layer of 150 neurons. In
@@ -181,7 +196,7 @@ architecture the following observations can be made:
 
 Since independently of each other both the CNN and RNN produce perfect
 in-sample predictions of the discrete labels, it is not surprising that
-the correlation between their respective probabilistic predictions is 98
+the correlation between their respective probabilistic predictions is 99
 percent. The figure below illustrates this further. It plots the twenty
 most frequent words occurring in sentences that were labelled as either
 positive (=1) or negative (=0) by the CNN and RNN, respectively[3].
